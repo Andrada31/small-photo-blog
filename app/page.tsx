@@ -30,7 +30,7 @@ export default async function PortfolioPage({ searchParams }: PageProps) {
         {/* Hero Section */}
         <section className="text-center mb-12 md:mb-16">
           <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight">
-            Capturing Moments
+            My Small Photo Blog
           </h2>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             A curated collection of photographs exploring light, shadow, and the

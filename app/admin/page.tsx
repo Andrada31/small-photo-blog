@@ -1,34 +1,52 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Lock } from "lucide-react"
-import AdminDashboard from "@/components/admin/admin-dashboard"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Lock } from "lucide-react";
+import AdminDashboard from "@/components/admin/admin-dashboard";
 
 export default function AdminPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
 
-    if (username === "admin" && password === "admin") {
-      setIsAuthenticated(true)
-    } else {
-      setError("Invalid username or password")
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!res.ok) {
+        setError("Invalid credentials");
+        return;
+      }
+
+      setIsAuthenticated(true);
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Unable to log in right now");
     }
-  }
+  };
 
   if (isAuthenticated) {
-    return <AdminDashboard onLogout={() => setIsAuthenticated(false)} />
+    return <AdminDashboard onLogout={() => setIsAuthenticated(false)} />;
   }
 
   return (
@@ -38,8 +56,12 @@ export default function AdminPage() {
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
             <Lock className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="font-heading text-2xl tracking-wide">Admin Login</CardTitle>
-          <CardDescription>Enter your credentials to access the dashboard</CardDescription>
+          <CardTitle className="font-heading text-2xl tracking-wide">
+            Admin Login
+          </CardTitle>
+          <CardDescription>
+            Enter your credentials to access the dashboard
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -73,5 +95,5 @@ export default function AdminPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
