@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { PortfolioHeader } from "@/components/portfolio-header";
 import { PhotoGallery } from "@/components/photo-gallery";
 import { getPhotos, getTotalPages, type PhotoCategory } from "@/lib/photo-data";
+import Image from "next/image";
 
 const PHOTOS_PER_PAGE = 40;
 
@@ -68,15 +69,32 @@ export default async function PortfolioPage({ searchParams }: PageProps) {
             <div className="flex items-center gap-6">
               <a
                 href="#"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
+                <Image
+                  src="/instagram.svg"
+                  alt="Instagram"
+                  width={20}
+                  height={20}
+                  className="h-4 w-4 transition group-hover:filter-none group-hover:grayscale-0 [filter:grayscale(1)_brightness(0.7)]"
+                  style={{ color: "#808080" }}
+                />
                 Instagram
               </a>
               <a
-                href="#"
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                href="https://www.flickr.com/photos/201556848@N02/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group text-muted-foreground hover:text-foreground transition-colors"
               >
-                Flickr
+                <Image
+                  src="/flickr.svg"
+                  alt="Flickr"
+                  width={24}
+                  height={24}
+                  className="h-6 w-16 transition group-hover:filter-none group-hover:grayscale-0 [filter:grayscale(1)_brightness(1.2)]"
+                  style={{ color: "#808080" }}
+                />
               </a>
             </div>
           </div>
